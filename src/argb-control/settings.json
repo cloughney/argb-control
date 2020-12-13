@@ -1,0 +1,37 @@
+﻿{
+	"serialPort": "COM9",
+	"defaultProfile": null,
+
+	"triggers": [
+		//{
+		//	"processName": "ModernWarfare.exe",
+		//	"profileName": "Modern Warfare"
+		//}
+	],
+
+	"profiles": {
+		//"Modern Warfare": {
+		//	"devices": [
+		//		{
+		//			"pixels": [ "OrangeRed", "OrangeRed", "OrangeRed", "OrangeRed", "OrangeRed", "OrangeRed", "OrangeRed", "OrangeRed", "OrangeRed", "OrangeRed", "OrangeRed", "OrangeRed" ]
+		//		}
+		//	]
+		//},
+
+		"Off": {
+			"devices": [
+				{
+					"pixels": [ "Black" ]
+				}
+			]
+		}
+	},
+
+	"logging": {
+		"EventLog": {
+			"LogLevel": {
+				"Default": "Information"
+			}
+		}
+	}
+}
