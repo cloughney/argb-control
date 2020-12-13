@@ -6,8 +6,8 @@
 #define MyAppPublisher "KrikCo"
 #define MyAppURL "https://krik.co"
 #define MyAppExeName "ARGBControl.exe"
-#define PublishPath "src\argb-control\bin\Release\publish\win-x64"
-#define StartupTaskName "Start KrikHome ARGB Control"
+#define PublishPath "src\argb-control\bin\Release\netcoreapp3.1"
+#define StartupTaskName "Start ARGB Control"
 
 [Setup]
 AppId={{44498B5D-1DCA-462D-8FB2-EE2B5CC1D99A}
