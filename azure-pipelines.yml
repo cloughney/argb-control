@@ -27,11 +27,18 @@ steps:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+    msbuildArgs: '/p:OutDir=$(Build.BinariesDirectory)'
 
 - task: CmdLine@2
   inputs:
-    script: 'iscc $(Agent.BuildDirectory)\installer.iss'
-    workingDirectory: '$(Agent.BuildDirectory)\packages\tools.innosetup\$(innoToolsVersion)\tools'
+    script: |
+      set INSTALLER_PUBLISH_PATH=$(Build.BinariesDirectory)
+      iscc $(Build.Repository.LocalPath)\installer.iss
+    workingDirectory: '$(Build.Repository.LocalPath)\packages\tools.innosetup\$(innoToolsVersion)\tools'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: $(Build.Repository.LocalPath)\src\argb-control\bin\$(buildConfiguration
 
 - task: PublishBuildArtifacts@1
   inputs:
