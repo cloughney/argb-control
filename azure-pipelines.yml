@@ -21,6 +21,11 @@ steps:
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
+    restoreDirectory: '$(Build.Repository.LocalPath)\packages'
+
+- task: DeleteFiles@1
+  inputs:
+    SourceFolder: $(Build.BinariesDirectory)
 
 - task: VSBuild@1
   inputs:
@@ -38,7 +43,8 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: $(Build.Repository.LocalPath)\src\argb-control\bin\$(buildConfiguration
+    SourceFolder: $(Build.BinariesDirectory)\setup
+    TargetFolder: $(Build.ArtifactStagingDirectory)
 
 - task: PublishBuildArtifacts@1
   inputs:
