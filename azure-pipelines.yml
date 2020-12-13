@@ -31,7 +31,12 @@ steps:
 - task: CmdLine@2
   inputs:
     script: 'iscc $(Agent.BuildDirectory)\installer.iss'
-    workingDirectory: 'packages\tools.innosetup\$(innoToolsVersion)\tools'
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '$(solution)'
+    feedsToUse: 'select'
+    workingDirectory: '$(solution)\packages\tools.innosetup\$(innoToolsVersion)\tools'
 
 - task: PublishBuildArtifacts@1
   inputs:
