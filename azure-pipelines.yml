@@ -30,9 +30,8 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: |
-      SET PATH=packages\tools.innosetup\$(innoToolsVersion)\tools
-      iscc installer.iss
+    script: 'iscc $(Agent.BuildDirectory)\installer.iss'
+    workingDirectory: 'packages\tools.innosetup\$(innoToolsVersion)\tools'
 
 - task: PublishBuildArtifacts@1
   inputs:
