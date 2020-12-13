@@ -13,6 +13,7 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  innoToolsVersion: '6.1.2'
 
 steps:
 - task: NuGetToolInstaller@1
@@ -26,10 +27,9 @@ steps:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:PublishProfile=win-x64'
 
 - task: CmdLine@2
   inputs:
     script: |
-      SET PATH=packages\tools.innosetup\6.1.2\tools
+      SET PATH=packages\tools.innosetup\$(innoToolsVersion)\tools
       iscc installer.iss
