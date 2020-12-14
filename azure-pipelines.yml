@@ -48,8 +48,11 @@ steps:
         }
       }
       
-      ${Env:Installer.AppVersion} = $csproj.Project.PropertyGroup.Version
+      $appVersion = $csproj.Project.PropertyGroup.Version
+      
+      ${Env:Installer.AppVersion} = $appVersion
       ${Env:Installer.PublishPath} = "$(Build.BinariesDirectory)"
+      ${Env:Installer.OutputFileName} = "argb-setup-v$appVersion"
 
       pushd "$(Build.Repository.LocalPath)\packages\tools.innosetup\$toolsVersion\tools"
       iscc $(Build.Repository.LocalPath)\installer.iss
