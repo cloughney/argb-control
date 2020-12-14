@@ -27,23 +27,6 @@ steps:
   inputs:
     SourceFolder: $(Build.BinariesDirectory)
 
-- task: PowerShell@2
-  displayName: 'Setup Installer Variables'
-  inputs:
-    targetType: 'inline'
-    script: |
-      [XML]$csproj = get-content '$(controlProject)'
-      
-      foreach ($package in $csproj.Project.ItemGroup[0].PackageReference) {
-        if ($package.Include -eq "Tools.InnoSetup") {
-          ${Env:Installer.ToolVersion} = $package.Version
-          break
-        }
-      }
-      
-      ${Env:Installer.AppVersion} = $csproj.Project.PropertyGroup.Version
-      ${Env:Installer.PublishPath} = "$(Build.BinariesDirectory)"
-
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
@@ -51,18 +34,27 @@ steps:
     configuration: '$(buildConfiguration)'
     msbuildArgs: '/p:OutDir=$(Build.BinariesDirectory)'
 
-- task: CmdLine@2
-  displayName: 'Create Installer'
-  inputs:
-    script: |
-      iscc $(Build.Repository.LocalPath)\installer.iss
-    workingDirectory: '$(Build.Repository.LocalPath)\packages\tools.innosetup\$(Installer.ToolVersion)\tools'
-
 - task: PowerShell@2
-  displayName: 'Create Manifest'
+  displayName: 'Create Setup Files'
   inputs:
     targetType: 'inline'
     script: |
+      [XML]$csproj = get-content '$(controlProject)'
+      
+      foreach ($package in $csproj.Project.ItemGroup[0].PackageReference) {
+        if ($package.Include -eq "Tools.InnoSetup") {
+          $toolsVersion = $package.Version
+          break
+        }
+      }
+      
+      ${Env:Installer.AppVersion} = $csproj.Project.PropertyGroup.Version
+      ${Env:Installer.PublishPath} = "$(Build.BinariesDirectory)"
+
+      pushd "$(Build.Repository.LocalPath)\packages\tools.innosetup\$toolsVersion\tools"
+      iscc $(Build.Repository.LocalPath)\installer.iss
+      popd
+
       set-content -path '$(Build.BinariesDirectory)\setup' -value @"
       {
         "latest": "$(Installer.AppVersion)"
