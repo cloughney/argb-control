@@ -36,13 +36,13 @@ steps:
       
       foreach ($package in $csproj.Project.ItemGroup[0].PackageReference) {
         if ($package.Include -eq "Tools.InnoSetup") {
-          $Env:Installer.ToolVersion = $package.Version
+          ${Env:Installer.ToolVersion} = $package.Version
           break
         }
       }
       
-      $Env:Installer.AppVersion = $csproj.Project.PropertyGroup.Version
-      $Env:Installer.PublishPath = $(Build.BinariesDirectory)
+      ${Env:Installer.AppVersion} = $csproj.Project.PropertyGroup.Version
+      ${Env:Installer.PublishPath} = $(Build.BinariesDirectory)
 
 - task: VSBuild@1
   inputs:
