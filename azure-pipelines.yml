@@ -48,8 +48,8 @@ steps:
         }
       }
       
-      ${Env:Installer.AppVersion} = $csproj.Project.PropertyGroup.Version
-      ${Env:Installer.PublishPath} = "$(Build.BinariesDirectory)"
+      ${Env.Installer.AppVersion} = $csproj.Project.PropertyGroup.Version
+      ${Env.Installer.PublishPath} = "$(Build.BinariesDirectory)"
 
       pushd "$(Build.Repository.LocalPath)\packages\tools.innosetup\$toolsVersion\tools"
       iscc $(Build.Repository.LocalPath)\installer.iss
@@ -57,7 +57,7 @@ steps:
 
       set-content -path '$(Build.BinariesDirectory)\setup' -value @"
       {
-        "latest": ${Env:Installer.AppVersion}
+        "latest": ${Env.Installer.AppVersion}
       }
       "@
 
