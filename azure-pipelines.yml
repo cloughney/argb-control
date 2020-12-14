@@ -57,7 +57,7 @@ steps:
 
       set-content -path '$(Build.BinariesDirectory)\setup' -value @"
       {
-        "latest": "$(Installer.AppVersion)"
+        "latest": ${Env:Installer.AppVersion}
       }
       "@
 
