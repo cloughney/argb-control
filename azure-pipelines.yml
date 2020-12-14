@@ -60,7 +60,7 @@ steps:
 
       set-content -path '$(Build.BinariesDirectory)\setup\version.json' -value @"
       {
-        "latest": ${Env:Installer.AppVersion},
+        "latest": "${Env:Installer.AppVersion}",
         "filename": "${Env:Installer.OutputFileName}.exe"
       }
       "@
