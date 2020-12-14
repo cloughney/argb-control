@@ -42,7 +42,7 @@ steps:
       }
       
       ${Env:Installer.AppVersion} = $csproj.Project.PropertyGroup.Version
-      ${Env:Installer.PublishPath} = $(Build.BinariesDirectory)
+      ${Env:Installer.PublishPath} = "$(Build.BinariesDirectory)"
 
 - task: VSBuild@1
   inputs:
