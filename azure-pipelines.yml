@@ -11,9 +11,9 @@ pool:
 
 variables:
   solution: '**/*.sln'
+  controlProject: '**/ARGBControl.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  innoToolsVersion: '6.1.2'
 
 steps:
 - task: NuGetToolInstaller@1
@@ -27,6 +27,23 @@ steps:
   inputs:
     SourceFolder: $(Build.BinariesDirectory)
 
+- task: PowerShell@2
+  displayName: 'Setup Installer Variables'
+  inputs:
+    targetType: 'inline'
+    script: |
+      [XML]$csproj = get-content '$(controlProject)'
+      
+      foreach ($package in $csproj.Project.ItemGroup[0].PackageReference) {
+        if ($package.Include -eq "Tools.InnoSetup") {
+          $Env:Installer.ToolVersion = $package.Version
+          break
+        }
+      }
+      
+      $Env:Installer.AppVersion = $csproj.Project.PropertyGroup.Version
+      $Env:Installer.PublishPath = $(Build.BinariesDirectory)
+
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
@@ -35,11 +52,22 @@ steps:
     msbuildArgs: '/p:OutDir=$(Build.BinariesDirectory)'
 
 - task: CmdLine@2
+  displayName: 'Create Installer'
   inputs:
     script: |
-      set INSTALLER_PUBLISH_PATH=$(Build.BinariesDirectory)
       iscc $(Build.Repository.LocalPath)\installer.iss
-    workingDirectory: '$(Build.Repository.LocalPath)\packages\tools.innosetup\$(innoToolsVersion)\tools'
+    workingDirectory: '$(Build.Repository.LocalPath)\packages\tools.innosetup\$(Installer.ToolVersion)\tools'
+
+- task: PowerShell@2
+  displayName: 'Create Manifest'
+  inputs:
+    targetType: 'inline'
+    script: |
+      set-content -path '$(Build.BinariesDirectory)\setup' -value @"
+      {
+        "latest": "$(Installer.AppVersion)"
+      }
+      "@
 
 - task: CopyFiles@2
   inputs:
