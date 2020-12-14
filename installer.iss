@@ -17,6 +17,11 @@
   #define PublishPath "src\argb-control\bin\Release\netcoreapp3.1"
 #endif
 
+#define OutputFileName GetEnv('Installer.OutputFileName')
+#if OutputFileName == ""
+  #define OutputFileName "argb-control-setup-development"
+#endif
+
 [Setup]
 AppId={{44498B5D-1DCA-462D-8FB2-EE2B5CC1D99A}
 AppName={#MyAppName}
@@ -29,7 +34,7 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
 OutputDir={#PublishPath}\setup
-OutputBaseFilename=argb-control-setup-v{#MyAppVersion}
+OutputBaseFilename={#OutputFileName}
 SetupIconFile={#PublishPath}\bulb.ico
 Compression=lzma
 SolidCompression=yes
@@ -40,7 +45,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked  
-Name: "startwithwindows"; Description: "Start app when Windows starts";
+Name: "startwithwindows"; Description: "Start app when Windows starts"; GroupDescription: "Startup Options"
 
 [Files]
 Source: "{#PublishPath}\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
