@@ -54,6 +54,11 @@ namespace ARGBControl
 				{
 					var command = await this.queue.DequeueAsync(stoppingToken);
 
+					if (!this.serial.IsOpen)
+					{
+						break;
+					}
+
 					try
 					{
 						var positionOverrides = this.options.CurrentValue.DevicePositions;
