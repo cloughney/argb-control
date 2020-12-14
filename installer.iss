@@ -2,11 +2,15 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "ARGB Control"
-#define MyAppVersion "0.3"
 #define MyAppPublisher "KrikCo"
 #define MyAppURL "https://krik.co"
 #define MyAppExeName "ARGBControl.exe"
 #define StartupTaskName "Start ARGB Control"
+
+#define MyAppVersion GetEnv('INSTALLER_APP_VERSION')
+#if MyAppVersion == ""
+  #define MyAppVersion "development"
+#endif
 
 #define PublishPath GetEnv('INSTALLER_PUBLISH_PATH')
 #if PublishPath == ""

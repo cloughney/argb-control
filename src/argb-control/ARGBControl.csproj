@@ -8,6 +8,7 @@
 		<RootNamespace>ARGBControl</RootNamespace>
 		<UseWindowsForms>true</UseWindowsForms>
 		<ApplicationIcon>bulb.ico</ApplicationIcon>
+		<Version>0.3.0</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
