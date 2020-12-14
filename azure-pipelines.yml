@@ -11,7 +11,7 @@ pool:
 
 variables:
   solution: '**/*.sln'
-  controlProject: '**/ARGBControl.csproj'
+  controlProject: 'src/argb-control/ARGBControl.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
