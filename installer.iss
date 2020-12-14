@@ -7,12 +7,12 @@
 #define MyAppExeName "ARGBControl.exe"
 #define StartupTaskName "Start ARGB Control"
 
-#define MyAppVersion GetEnv('Installer.AppVersion')
+#define MyAppVersion GetEnv('INSTALLER_APPVERSION')
 #if MyAppVersion == ""
   #define MyAppVersion "development"
 #endif
 
-#define PublishPath GetEnv('Installer.PublishPath')
+#define PublishPath GetEnv('INSTALLER_PUBLISHPATH')
 #if PublishPath == ""
   #define PublishPath "src\argb-control\bin\Release\netcoreapp3.1"
 #endif
