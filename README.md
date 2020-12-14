@@ -1,1 +1,1 @@
-[![Build Status](https://dev.azure.com/krikco/krik-home/_apis/build/status/argb-control-ci?branchName=master)](https://dev.azure.com/krikco/krik-home/_build/latest?definitionId=4&branchName=master)
+![Build Status](https://dev.azure.com/krikco/krik-home/_apis/build/status/argb-control-ci?branchName=master)
