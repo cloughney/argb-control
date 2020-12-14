@@ -55,7 +55,7 @@ steps:
       iscc $(Build.Repository.LocalPath)\installer.iss
       popd
 
-      set-content -path '$(Build.BinariesDirectory)\setup' -value @"
+      set-content -path '$(Build.BinariesDirectory)\setup\version.json' -value @"
       {
         "latest": ${Env:Installer.AppVersion}
       }
