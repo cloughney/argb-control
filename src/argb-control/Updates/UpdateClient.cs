@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net.Http;
+using System.Reflection;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace ARGBControl.Updates
 		private readonly HttpClient http;
 		public KrikCoUpdateClient(HttpClient http) => this.http = http;
 
-		private string AppVersion => this.GetType().Assembly.GetName().Version.ToString();
+		private string AppVersion => this.GetType().Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
 
 		public async Task<bool> CheckForUpdate(CancellationToken cancellationToken = default)
 		{
