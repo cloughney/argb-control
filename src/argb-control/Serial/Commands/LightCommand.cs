@@ -10,7 +10,7 @@ namespace ARGBControl.Serial.Commands
 	public class LightCommand : ISerialCommand
 	{
 		public byte DeviceIndex { get; set; }
-		public List<Color> Pixels { get; set; }
+		public IList<Color> Pixels { get; set; }
 	}
 
 	public class LightCommandHandler : ISerialCommandHandler<LightCommand>
@@ -19,11 +19,11 @@ namespace ARGBControl.Serial.Commands
 
 		public async Task HandleCommand(LightCommand command, Stream serial)
 		{
-			var length = (short)(command.Pixels.Count * 3 + 1);
+			var length = (ushort)(command.Pixels.Count * 3 + 1);
 			var buffer = new byte[3];
 
 			buffer[0] = MessageByte;
-			BinaryPrimitives.WriteInt16BigEndian(buffer, length);
+			BinaryPrimitives.WriteUInt16BigEndian(buffer, length);
 
 			await serial.WriteAsync(buffer, 0, 3);
 

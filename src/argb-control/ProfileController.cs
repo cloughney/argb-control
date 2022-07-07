@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using ARGBControl.Serial.Commands;
 
@@ -12,8 +13,8 @@ namespace ARGBControl
 
 	public class ProfileController : IProfileController
 	{
-		private readonly IQueue<LightCommand> commands;
-		public ProfileController(IQueue<LightCommand> commands) => this.commands = commands;
+		private readonly IQueue<ISerialCommand> commands;
+		public ProfileController(IQueue<ISerialCommand> commands) => this.commands = commands;
 
 		public string ActiveProfileName { get; private set; }
 
@@ -24,14 +25,13 @@ namespace ARGBControl
 				throw new ArgumentNullException(nameof(profile));
 			}
 
-			var commands = profile.Devices.SelectMany((device, deviceIndex) => 
-				device.Pixels.Select((pixelColor, pixelIndex) =>
-					new LightCommand
-					{
-						DeviceIndex = deviceIndex,
-						LightIndex = pixelIndex,
-						Color = pixelColor
-					}));
+			var commands = profile.Devices.Select((device, deviceIndex) =>
+				new LightCommand
+				{
+					DeviceIndex = (byte)deviceIndex,
+					Pixels = device.Pixels
+				}
+			);
 
 			foreach (var command in commands)
 			{

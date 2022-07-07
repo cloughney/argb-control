@@ -35,7 +35,7 @@ var host = new HostBuilder()
 	.ConfigureServices((context, services) =>
 	{
 		services.AddHostedService<TrayIconBackgroundService>();
-		services.AddHostedService<ProcessWatcherBackgroundService>();
+		//services.AddHostedService<ProcessWatcherBackgroundService>();
 
 		services.Configure<Configuration>(configuration =>
 		{

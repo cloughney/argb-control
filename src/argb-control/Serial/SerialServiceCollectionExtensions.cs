@@ -9,8 +9,10 @@ namespace Microsoft.Extensions.DependencyInjection
 		public static IServiceCollection AddSerialCommunication(this IServiceCollection services)
 		{
 			services.AddSingleton<IQueue<ISerialCommand>, InMemoryQueue<ISerialCommand>>();
-			
+
 			services.AddSingleton<ISerialCommandExecutor, SerialCommandExecutor>();
+			services.AddSingleton<ISerialCommandReceiver, SerialCommandReceiver>();
+
 			services.AddScoped<ISerialCommandHandler<LightCommand>, LightCommandHandler>();
 			services.AddScoped<ISerialCommandHandler<FanSpeedCommand>, FanSpeedCommandHandler>();
 

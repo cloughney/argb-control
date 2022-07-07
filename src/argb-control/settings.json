@@ -1,5 +1,5 @@
 ﻿{
-	"serialPort": "COM9",
+	"serialPort": "COM4",
 	"defaultProfile": null,
 
 	"triggers": [
@@ -10,18 +10,18 @@
 	],
 
 	"profiles": {
-		//"Modern Warfare": {
-		//	"devices": [
-		//		{
-		//			"pixels": [ "OrangeRed", "OrangeRed", "OrangeRed", "OrangeRed", "OrangeRed", "OrangeRed", "OrangeRed", "OrangeRed", "OrangeRed", "OrangeRed", "OrangeRed", "OrangeRed" ]
-		//		}
-		//	]
-		//},
+		"Clean": {
+			"devices": [
+				{
+					"pixels": [ "White", "White", "White" ]
+				}
+			]
+		},
 
 		"Off": {
 			"devices": [
 				{
-					"pixels": [ "Black" ]
+					"pixels": [ "Black", "Black", "Black" ]
 				}
 			]
 		}

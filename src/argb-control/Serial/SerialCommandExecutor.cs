@@ -29,13 +29,14 @@ namespace ARGBControl.Serial
 		{
 			var commandType = command.GetType();
 			var handlerType = typeof(ISerialCommandHandler<>).MakeGenericType(commandType);
+			var handleMethodType = handlerType.GetMethod(nameof(ISerialCommandHandler<ISerialCommand>.HandleCommand));
 
 			try
 			{
 				using var scope = this.services.CreateScope();
-				var handler = (ISerialCommandHandler<ISerialCommand>)scope.ServiceProvider.GetRequiredService(handlerType);
+				var handlerInstance = scope.ServiceProvider.GetRequiredService(handlerType);
 
-				await handler.HandleCommand(command, serial.BaseStream);
+				await (Task)handleMethodType.Invoke(handlerInstance, new object[] { command, serial.BaseStream });
 			}
 			catch (Exception ex)
 			{

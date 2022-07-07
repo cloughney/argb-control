@@ -15,6 +15,7 @@ namespace ARGBControl.Serial
 		private readonly IOptionsMonitor<Configuration> options;
 		private readonly IQueue<ISerialCommand> queue;
 		private readonly ISerialCommandExecutor commandExecutor;
+		private readonly ISerialCommandReceiver commandReceiver;
 
 		private SerialPort serial;
 
@@ -22,12 +23,14 @@ namespace ARGBControl.Serial
 			ILogger<SerialCommandBackgroundService> logger,
 			IOptionsMonitor<Configuration> options,
 			IQueue<ISerialCommand> queue,
-			ISerialCommandExecutor commandExecutor)
+			ISerialCommandExecutor commandExecutor,
+			ISerialCommandReceiver commandReceiver)
 		{
 			this.logger = logger;
 			this.options = options;
 			this.queue = queue;
 			this.commandExecutor = commandExecutor;
+			this.commandReceiver = commandReceiver;
 		}
 
 		protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -40,6 +43,8 @@ namespace ARGBControl.Serial
 					continue;
 				}
 
+				this.serial.DataReceived += this.HandleIncomingMessage;
+
 				while (!stoppingToken.IsCancellationRequested)
 				{
 					var command = await this.queue.DequeueAsync(stoppingToken);
@@ -51,6 +56,8 @@ namespace ARGBControl.Serial
 
 					await this.commandExecutor.ExecuteCommand(this.serial, command);
 				}
+
+				this.serial.DataReceived -= this.HandleIncomingMessage;
 			}
 		}
 
@@ -74,6 +81,14 @@ namespace ARGBControl.Serial
 			{
 				this.logger.LogError(ex, "Opening serial port {SerialPort} failed.", serialPortName);
 				return false;
+			}
+		}
+
+		private void HandleIncomingMessage(object sender, SerialDataReceivedEventArgs args)
+		{
+			if (args.EventType == SerialData.Chars)
+			{
+				this.commandReceiver.HandleIncomingMessage(this.serial);
 			}
 		}
 	}
