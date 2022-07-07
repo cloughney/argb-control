@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using ARGBControl.Serial.Commands;
 
 namespace ARGBControl
 {

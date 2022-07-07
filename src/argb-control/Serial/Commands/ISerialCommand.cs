@@ -1,12 +1,8 @@
-﻿using System.Drawing;
-
-namespace ARGBControl
+﻿namespace ARGBControl.Serial.Commands
 {
-	public class LightCommand
+	public interface ISerialCommand
 	{
-		public int DeviceIndex { get; set; }
-		public int LightIndex { get; set; }
-		public Color Color { get; set; }
+
 	}
 
 	//JSON configuration example?
@@ -37,7 +33,7 @@ namespace ARGBControl
 	//	{
 	//		using var argb = new LightController();
 	//		await argb.Connect();
-			
+
 	//		int? lastProcessId = null;
 
 	//		while (!stoppingToken.IsCancellationRequested)
@@ -74,9 +70,9 @@ namespace ARGBControl
 	//	private static Process GetActiveProcess()
 	//	{
 	//		var handle = GetForegroundWindow();
-	
+
 	//		GetWindowThreadProcessId(handle, out var pid);
-	
+
 	//		return Process.GetProcessById((int)pid);
 	//	}
 
@@ -97,7 +93,7 @@ namespace ARGBControl
 	//		await controller.FillColor(4, 12, Color.FromArgb(0, 64, 64, 64));
 	//		await controller.FillColor(5, 12, Color.FromArgb(0, 64, 64, 64));
 	//	}
-	
+
 	//	public static async Task UseCallOfDutyProfile(this LightController controller)
 	//	{
 	//		await controller.FillColor(1, 12, Color.Aqua);

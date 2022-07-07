@@ -35,7 +35,6 @@ var host = new HostBuilder()
 	.ConfigureServices((context, services) =>
 	{
 		services.AddHostedService<TrayIconBackgroundService>();
-		services.AddHostedService<LightControlBackgroundService>();
 		services.AddHostedService<ProcessWatcherBackgroundService>();
 
 		services.Configure<Configuration>(configuration =>
@@ -50,8 +49,9 @@ var host = new HostBuilder()
 		services.AddTransient<IUpdateClient, KrikCoUpdateClient>(x => x.GetRequiredService<KrikCoUpdateClient>());
 
 		services.AddSingleton<IProfileController, ProfileController>();
-		services.AddSingleton<IQueue<LightCommand>, InMemoryQueue<LightCommand>>();
 		services.AddSingleton<IQueue<StatusUpdate>, InMemoryQueue<StatusUpdate>>();
+
+		services.AddSerialCommunication();
 	})
 	.Build();
 
